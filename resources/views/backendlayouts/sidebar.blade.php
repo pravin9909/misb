@@ -60,6 +60,52 @@
                                 </li>
                         </ul>
                     </div>
+                     <!-- Blogs Menu -->
+            <li class="nav-item">
+                <a class="nav-link menu-link" href="#sidebarBlogs" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarBlogs">
+                    <i class="ri-book-line"></i> <span data-key="t-blogs">Blogs</span>
+                </a>
+                <div class="collapse menu-dropdown" id="sidebarBlogs">
+                    <ul class="nav nav-sm flex-column">
+                        <li class="nav-item">
+                            <a href="{{ route('blog-categories.create') }}" class="nav-link" data-key="t-create-blog-category"> Create Blog Category </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('blog-categories.index') }}" class="nav-link" data-key="t-list-blog-category"> List Blog Categories </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('blogs.create') }}" class="nav-link" data-key="t-create-blog"> Create Blog </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('blogs.index') }}" class="nav-link" data-key="t-list-blogs"> List Blogs </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- End Blogs Menu -->
+             <!-- News Menu -->
+             <li class="nav-item">
+                <a class="nav-link menu-link" href="#sidebarNews" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarNews">
+                    <i class="ri-newspaper-line"></i> <span data-key="t-news">News</span>
+                </a>
+                <div class="collapse menu-dropdown" id="sidebarNews">
+                    <ul class="nav nav-sm flex-column">
+                        <li class="nav-item">
+                            <a href="{{ route('news-categories.create') }}" class="nav-link" data-key="t-create-news-category"> Create News Category </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('news-categories.index') }}" class="nav-link" data-key="t-list-news-categories"> List News Categories </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('news.create') }}" class="nav-link" data-key="t-create-news"> Create News </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('news.index') }}" class="nav-link" data-key="t-list-news"> List News </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- End News Menu -->
                 </li>
             </ul>
         </div>

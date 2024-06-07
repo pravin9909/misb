@@ -21,6 +21,11 @@ use App\Http\Controllers\Backend\CourseController;
 use App\Http\Controllers\Backend\PaymentController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\LangController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\BlogCategoryController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\NewsCategoryController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -83,7 +88,7 @@ Route::get('/admission-policy',[ToApplyController::class,'admission_policy']);
 Route::get('/admin',[LoginController::class,'index'])->name('admin');
 Route::post('/admin',[LoginController::class,'index_post']);
 
-Route::group(['middleware'=> 'auth'], function() {
+
     Route::get('/admin/dashboard',[DashboardController::class,'index'])->name('dashboard');
     Route::get('/admin/application',[ApplicationController::class,'application']);
     Route::get('/admin/application/create',[ApplicationController::class,'create_application']);
@@ -105,4 +110,35 @@ Route::group(['middleware'=> 'auth'], function() {
     Route::get('/admin/contact',[ContactController::class,'contact']);
     Route::get('/admin/contact/{id}',[ContactController::class,'delete']);
     Route::get('/admin/logout',[LoginController::class,'logout']);
-});
+
+    Route::get('/blogs', [BlogController::class, 'index'])->name('blogs.index');
+    Route::get('/blogs/create', [BlogController::class, 'create'])->name('blogs.create');
+    Route::post('/blogs', [BlogController::class, 'store'])->name('blogs.store');
+    Route::get('/blogs/{blog}/edit', [BlogController::class, 'edit'])->name('blogs.edit');
+    Route::put('/blogs/{blog}', [BlogController::class, 'update'])->name('blogs.update');
+    Route::delete('/blogs/{blog}', [BlogController::class, 'destroy'])->name('blogs.destroy');
+    Route::get('/blogs/{blog}', [BlogController::class, 'show'])->name('blogs.show');
+    
+    // Blog Categories Routes
+    Route::get('/blog-categories', [BlogCategoryController::class, 'index'])->name('blog-categories.index');
+    Route::get('/blog-categories/create', [BlogCategoryController::class, 'create'])->name('blog-categories.create');
+    Route::post('/blog-categories', [BlogCategoryController::class, 'store'])->name('blog-categories.store');
+    Route::get('/blog-categories/{category}/edit', [BlogCategoryController::class, 'edit'])->name('blog-categories.edit');
+    Route::put('/blog-categories/{category}', [BlogCategoryController::class, 'update'])->name('blog-categories.update');
+    Route::delete('/blog-categories/{category}', [BlogCategoryController::class, 'destroy'])->name('blog-categories.destroy');
+    Route::get('/blog-categories/{category}', [BlogCategoryController::class, 'show'])->name('blog-categories.show');
+
+    Route::get('/news-categories', [NewsCategoryController::class, 'index'])->name('news-categories.index');
+    Route::get('/news-categories/create', [NewsCategoryController::class, 'create'])->name('news-categories.create');
+    Route::post('/news-categories', [NewsCategoryController::class, 'store'])->name('news-categories.store');
+    Route::get('/news-categories/{newsCategory}/edit', [NewsCategoryController::class, 'edit'])->name('news-categories.edit');
+    Route::put('/news-categories/{newsCategory}', [NewsCategoryController::class, 'update'])->name('news-categories.update');
+    Route::delete('/news-categories/{newsCategory}', [NewsCategoryController::class, 'destroy'])->name('news-categories.destroy');
+
+    // News Routes
+    Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+    Route::get('/news/create', [NewsController::class, 'create'])->name('news.create');
+    Route::post('/news', [NewsController::class, 'store'])->name('news.store');
+    Route::get('/news/{news}/edit', [NewsController::class, 'edit'])->name('news.edit');
+    Route::put('/news/{news}', [NewsController::class, 'update'])->name('news.update');
+    Route::delete('/news/{news}', [NewsController::class, 'destroy'])->name('news.destroy');

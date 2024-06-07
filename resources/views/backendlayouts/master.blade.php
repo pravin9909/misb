@@ -109,6 +109,8 @@
     <!-- App js -->
     {{-- <script src="{{ asset('assets/js/app.js')}} "></script> --}}
     <script src="https://cdn.datatables.net/2.0.1/js/dataTables.js"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    @stack('scripts')
     @yield('script')
 </body>
 <!-- Mirrored from themesbrand.com/velzon/html/corporate/tables-listjs.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 11 Aug 2023 17:12:06 GMT -->

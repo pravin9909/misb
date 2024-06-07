@@ -25,7 +25,7 @@
 <section class="candidates-resume-area ptb-100">
     <div class="container">
         <div class="candidates-resume-content">
-            <form class="resume-info" method="post" action=" {{ url('/to-apply') }} " enctype="multipart/form-data">
+            <form class="resume-info" id="applicationForm" method="post" action=" {{ url('/to-apply') }} " enctype="multipart/form-data">
                 @csrf
                 <h3>Renseignements personnels</h3>
                 <div class="row">
@@ -309,67 +309,74 @@
                         </div>
                         <div class="col-lg-6 col-md-6" id="moi" style="display:none;">
                             <div class="form-group">
-                                <label>Certificat de Compétence Linguistique (MOI) (IELTS, TOFELS, DELF ou DALF)
+                                <label>Certificat de Compétence Linguistique (MOI,IELTS, TOFELS, DELF ou DALF)
                                     *</label>
                                 <input type="file" class="form-control"  id="moi_inner" name="moi">
                                 @error('moi')
                                 <span style="color:red"> {{ $message }}</span>
                             @enderror
+                            <span id="moi_error" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6" id="motivational_letter" style="display:none;">
                             <div class="form-group">
                                 <label>Motivational Letter *</label>
-                                <input type="file" name="motivational_letter" id="motivational_letter_inner" class="form-control">
+                                <input type="file" name="motivational_letter" id="motivational_letter_inner" class="form-control" max="3000000">
                                 @error('motivational_letter')
                                 <span style="color:red"> {{ $message }}</span>
                             @enderror
+                            <span id="motivational_letter_error" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6" id="curriculum_vitae" style="display:none;">
                             <div class="form-group">
                                 <label>CV *</label>
-                                <input type="file" name="curriculum_vitae" id="curriculum_vitae_inner" class="form-control">
+                                <input type="file" name="curriculum_vitae" id="curriculum_vitae_inner" class="form-control" max="3000000">
                                 @error('curriculum_vitae')
                                 <span style="color:red"> {{ $message }}</span>
                             @enderror
+                            <span id="curriculum_vitae_error" style="color:red;"></span>
                             </div>
                         </div>
                       
                         <div class="col-lg-6 col-md-6" id="titre">
                             <div class="form-group">
                                 <label for="img">Titre de séjour / Visa *</label>
-                                <input type="file" class="form-control" name="visa" id="titre_inner" required>
+                                <input type="file" class="form-control" name="visa" id="titre_inner" max="3000000" required >
                                 @error('visa')
                                 <span style="color:red"> {{ $message }}</span>
                             @enderror
+                            <span id="titre_error" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <div class="form-group">
                                 <label for="img">Copie du dernier diplôme *</label>
-                                <input type="file" class="form-control" name="diploma" required>
+                                <input type="file" class="form-control" name="diploma" max="3000000" required>
                                 @error('diploma')
                                 <span style="color:red"> {{ $message }}</span>
                             @enderror
+                            <span id="diploma_error" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <div class="form-group">
                                 <label for="img">Une photo d’identité *</label>
-                                <input type="file" class="form-control" name="passportsize" required>
+                                <input type="file" class="form-control" name="passportsize" max="3000000" required>
                                 @error('passportsize')
                                 <span style="color:red"> {{ $message }}</span>
                             @enderror
+                            <span id="passportsize_error" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <div class="form-group">
                                 <label for="img">Votre Passport *</label>
-                                <input type="file" class="form-control" name="idcard" required>
+                                <input type="file" class="form-control" name="idcard" max="3000000" required>
                                 @error('idcard')
                                 <span style="color:red"> {{ $message }}</span>
                             @enderror
+                            <span id="idcard_error" style="color:red;"></span>
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12">
@@ -394,6 +401,7 @@
 </section>
 @endsection
 @section('script')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
   function callProgram(Prog) {
         if (Prog == 'bbs') {
@@ -491,6 +499,42 @@ if (orig == 'Resident_Français_étudiant') {
     if (visa) visa.value = '';
 }
 }
+document.addEventListener('DOMContentLoaded', function() {
+        var form = document.getElementById('applicationForm');
+        form.addEventListener('submit', function() {
+            var submitButton = form.querySelector('button[type="submit"]');
+            submitButton.disabled = true; // Disable submit button on submit
+            submitButton.innerHTML = 'Loading...'; // Change button text to 'Loading...'
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        const fileInputs = [
+            {id: 'moi_inner', errorId: 'moi_error'},
+            {id: 'motivational_letter_inner', errorId: 'motivational_letter_error'},
+            {id: 'curriculum_vitae_inner', errorId: 'curriculum_vitae_error'},
+            {id: 'titre_inner', errorId: 'titre_error'},
+            {id: 'diploma_inner', errorId: 'diploma_error'},
+            {id: 'passportsize_inner', errorId: 'passportsize_error'},
+            {id: 'idcard_inner', errorId: 'idcard_error'}
+        ];
+
+        const maxSizeInMB = 3;
+        const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+
+        fileInputs.forEach(input => {
+            document.getElementById(input.id).addEventListener('change', function () {
+                const fileInput = this;
+                const errorMessage = document.getElementById(input.errorId);
+
+                if (fileInput.files[0].size > maxSizeInBytes) {
+                    errorMessage.textContent = 'File size should be less than 3 MB.';
+                    fileInput.value = ''; // Clear the file input
+                } else {
+                    errorMessage.textContent = ''; // Clear any previous error message
+                }
+            });
+        });
+    });
 </script>
 <script>
 
